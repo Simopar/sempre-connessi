@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sempre connessi, ma davvero in contatto?</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      margin: 0;
+      background: linear-gradient(to right, #e0eafc, #cfdef3);
+      color: #333;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+    header {
+      background-color: #1e272e;
+      color: white;
+      padding: 4rem 2rem;
+      text-align: center;
+    }
+    header h1 {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+    }
+    .container {
+      padding: 3rem 2rem;
+      max-width: 1000px;
+      margin: auto;
+      animation: fadeIn 1.5s ease-in;
+    }
+    .two-columns {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+    .column {
+      background-color: white;
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s;
+    }
+    .column:hover {
+      transform: translateY(-5px);
+    }
+    .quiz-section, .chart-container {
+      margin-top: 4rem;
+      background-color: #ffffffdd;
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+    .stats-section ul {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      padding: 1.5rem;
+    }
+    .stats-section li {
+      margin-bottom: 1rem;
+    }
+    canvas {
+      margin-top: 2rem;
+      max-width: 100%;
+    }
+    button {
+      margin-top: 1rem;
+      padding: 0.75rem 1.5rem;
+      border: none;
+      background-color: #1e90ff;
+      color: white;
+      font-weight: bold;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    button:hover {
+      background-color: #1c7ed6;
+    }
+    .result {
+      margin-top: 1rem;
+      font-weight: bold;
+      color: #1e272e;
+      font-size: 1.1rem;
+    }
+    h2 {
+      margin-top: 2rem;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>SEMPRE connessi, ma davvero in contatto?</h1>
+    <p>Ognuno di noi ha una risorsa preziosa: il tempo. Ma stiamo davvero usando il nostro tempo per connetterci… o solo per scrollare?</p>
+  </header>
+
+  <div class="container">
+    <p>Oggi possiamo scrivere a chiunque nel mondo, in ogni momento. Ma comunicare davvero, farci capire, sentirci ascoltati... è diventato più difficile.</p>
+
+    <div class="two-columns">
+      <div class="column">
+        <h3>Comunicazione Digitale</h3>
+        <ul>
+          <li>Messaggio su WhatsApp: "Tutto bene." 😐</li>
+          <li>Emoji "😂" senza sorriso reale</li>
+          <li>Like a una foto, ma nessuna parola</li>
+        </ul>
+      </div>
+      <div class="column">
+        <h3>Comunicazione Reale</h3>
+        <ul>
+          <li>Occhi che dicono di più di mille parole</li>
+          <li>Risate vere con gli amici</li>
+          <li>Un abbraccio silenzioso ma potente</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="quiz-section">
+      <h3>Hai mai...?</h3>
+      <p>Hai mai scritto "ok" ma volevi dire "sto male"?</p>
+      <button onclick="showResult('Forse è arrivato il momento di essere meno social online, per tornare a esserlo davvero nella realtà.')">Sì</button>
+      <button onclick="showResult('Riuscire a esprimersi anche attraverso un messaggio può essere fondamentale!')">No</button>
+      <div id="result" class="result"></div>
+    </div>
+
+    <div class="stats-section">
+      <h3>Dati interessanti</h3>
+      <ul>
+        <li>📱 Il 91% degli adolescenti usa il telefono per comunicare ogni giorno.</li>
+        <li>💬 Il 60% delle persone dichiara di fraintendere i messaggi scritti almeno una volta a settimana.</li>
+        <li>🧠 Il 93% della comunicazione è non verbale: ciò che diciamo con il corpo e il tono pesa più delle parole.</li>
+      </ul>
+
+    </div>
+
+    <div class="chart-container">
+  <h2>⏱️ Tempo medio mensile sulle piattaforme</h2>
+  <canvas id="barChart"></canvas>
+  <p style="font-size: 0.85rem; text-align: right; margin-top: 0.5rem; color: #555;">
+    Fonte: Corriere della Sera
+  </p>
+</div>
+
+
+    <div class="chart-container">
+      <h2>📌 Perché le persone usano i social?</h2>
+      <canvas id="pieChart"></canvas>
+      <p style="font-size: 0.85rem; text-align: right; margin-top: 0.5rem; color: #555;">
+    Fonte: We Are Social – Digital Report
+  </p>
+    </div>
+
+    <div style="margin-top: 3rem;">
+      <h3>Conclusione</h3>
+      <p>
+        Quanto spesso comunichiamo oggi ognuno di noi? Sempre. Quante volte, però, ci capita di comunicare ciò che vogliamo davvero dire? Oggi, soprattutto, con lo sviluppo dei social abbiamo un grosso vantaggio, quello di dire ciò che pensiamo a molte più persone possibili ma se da un lato è facile raggiungere tante persone, purtroppo non è altrettanto semplice far trasparire ciò che davvero pensiamo. <br>
+        La tecnologia è uno strumento potente, ma non può sostituire il contatto umano. Parlare non significa comunicare. Per capire ed essere capiti, serve empatia, presenza, ascolto. A volte, basta esserci.
+      </p>
+    </div>
+  </div>
+
+  <script>
+    function showResult(text) {
+      document.getElementById('result').innerText = text;
+      gsap.fromTo('#result', {opacity: 0, y: 20}, {opacity: 1, y: 0, duration: 0.8});
+    }
+
+    // Animazioni iniziali
+    gsap.from('header h1', {duration: 1, y: -50, opacity: 0});
+    gsap.from('header p', {duration: 1.5, y: -30, opacity: 0});
+    gsap.from('.column', {duration: 1, y: 40, opacity: 0, stagger: 0.2});
+    gsap.from('.quiz-section', {duration: 1, y: 30, opacity: 0, delay: 0.5});
+    gsap.from('.stats-section li', {duration: 0.6, opacity: 0, x: -20, stagger: 0.2, delay: 1});
+
+  
+
+    // Secondo grafico - Tempo medio mensile
+    new Chart(document.getElementById('barChart').getContext('2d'), {
+      type: 'bar',
+      data: {
+        labels: ['TikTok', 'YouTube', 'Facebook', 'Instagram', 'WhatsApp'],
+        datasets: [{
+          label: 'Ore al mese',
+          data: [32.2, 18.25, 16.62, 15.22, 13.9],
+          backgroundColor: ['#69c9d0', '#ff0000', '#3b5998', '#e1306c', '#25d366'],
+          borderRadius: 8
+        }]
+      },
+      options: {
+        indexAxis: 'y',
+        responsive: true,
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            callbacks: {
+              label: function(ctx) {
+                const val = ctx.raw;
+                const h = Math.floor(val);
+                const m = Math.round((val - h) * 60);
+                return `${h}h ${m}m`;
+              }
+            }
+          }
+        },
+        scales: {
+          x: { title: { display: true, text: 'Tempo (ore)' } }
+        }
+      }
+    });
+
+    // Terzo grafico - motivi d'uso
+    // Grafico aggiornato - motivi d'uso
+new Chart(document.getElementById('pieChart').getContext('2d'), {
+  type: 'pie',
+  data: {
+    labels: [
+      'Restare in contatto con amici/famiglia',
+      'Riempire il tempo libero',
+      'Leggere notizie',
+      'Trovare contenuti divertenti',
+      'Scoprire di cosa si parla',
+      'Ispirazione per attività/acquisti',
+      'Trovare prodotti da acquistare',
+      'Condividere e discutere opinioni',
+      'Guardare live stream',
+      'Fare nuove conoscenze',
+      'Contenuti dei brand preferiti',
+      'Networking/lavoro e ricerca',
+      'Gruppi con interessi comuni',
+      'Postare sulla propria vita',
+      'Seguire sport',
+      'Seguire celebrità o influencer'
+    ],
+    datasets: [{
+      data: [
+        48.6, 36.3, 35.2, 30.9, 29.3, 27.5, 26.1, 24.9,
+        23.7, 23.6, 22.9, 22.7, 22.0, 21.1, 21.1, 20.7
+      ],
+      backgroundColor: [
+        '#ffce56', '#36a2eb', '#ff6384', '#9966ff', '#4bc0c0',
+        '#f67019', '#f53794', '#6c5ce7', '#00b894', '#d63031',
+        '#e17055', '#fab1a0', '#81ecec', '#ffeaa7', '#fd79a8', '#55efc4'
+      ],
+      borderWidth: 1
+    }]
+  },
+  options: {
+    responsive: true,
+    plugins: {
+      legend: { position: 'right' }
+    }
+  }
+});
+
+  </script>
+  <div style="text-align:center; margin-top: 2rem;">
+  <button onclick="alert('Il primo passo? Lascia giù il telefono per un momento.')">
+    Fai un passo indietro… e torna davvero in contatto 🤝
+  </button>
+</div>
+
+</body>
+</html>
